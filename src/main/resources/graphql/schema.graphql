@@ -1,0 +1,22 @@
+type Author{
+    id:ID!
+    createdTime:String
+    firstName:String
+    lastName:String
+    books:[Book]
+}
+
+input BookInput{
+    title:String!
+    isbn:String!
+    pageCount:Int
+    authorId:ID
+}
+
+type Book{
+    id:ID!
+    title:String
+    isbn:String
+    pageCount:Int
+    author:Author
+}

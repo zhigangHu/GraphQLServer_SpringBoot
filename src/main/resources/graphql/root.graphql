@@ -1,0 +1,17 @@
+type Query{
+    findAuthorById(id:ID!):Author
+    findAllAuthors:[Author]
+    countAuthors:Int
+    findAllBooks:[Book]!
+    countBooks:Int!
+
+}
+
+type Mutation {
+    newAuthor(firstName: String!,lastName: String!) : Author!
+
+    newBook(title: String!,isbn: String!,pageCount: Int, authorId: ID!) : Book!
+    saveBook(input: BookInput!) : Book!
+    deleteBook(id: ID!) : Boolean
+    updateBookPageCount(pageCount: Int!, id:ID!) : Book!
+}

@@ -1,0 +1,164 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/graphql?serverTimezone=UTC
+    username: root
+    password: 1234
+#    driver-class-name: com.mysql.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      minimum-idle: 10
+      maximum-pool-size: 20
+      idle-timeout: 60000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      data-source-properties:
+        cachePreStmts: true
+        preStmtCacheSize: 250
+
+
+  main:
+    allow-bean-definition-overriding: true
+#    dbcp2:
+#      driver-class-name: com.mysql.jdbc.Driver
+#      max-wait-millis: 20
+#      max-idle: 8
+#      min-idle: 8
+#      initial-size: 10
+  jpa:
+    hibernate:
+      ddl-auto: update
+      database: mysql
+
+
+graphql:
+  servlet:
+    mapping: /graphql
+    enabled: true
+    corsEnabled: true
+    cors:
+      allowed-origins: http://some.domain.com
+    # if you want to @ExceptionHandler annotation for custom GraphQLErrors
+    exception-handlers-enabled: true
+    contextSetting: PER_REQUEST_WITH_INSTRUMENTATION
+  tools:
+    schema-location-pattern: "**/*.graphql"
+    # Enable or disable the introspection query. Disabling it puts your server in contravention of the GraphQL
+    # specification and expectations of most clients, so use this option with caution
+    introspection-enabled: true
+  annotations:
+    base-package: com.exaple.springboot_graphql # required
+    always-prettify: true #true is the default value, no need to specify it
+
+#graphiql:
+#  mapping: /graphiql
+#  endpoint:
+#    graphql: /graphql
+#    subscriptions: /subscriptions
+#  subscriptions:
+#    timeout: 30
+#    reconnect: false
+#  static:
+#    basePath: /
+#  enabled: true
+#  pageTitle: GraphiQL
+#  cdn:
+#    enabled: false
+#    version: 0.13.0
+#  props:
+#    resources:
+#      query: query.graphql
+#      defaultQuery: defaultQuery.graphql
+#      variables: variables.graphql
+#    variables:
+#      editorTheme: "solarized light"
+#  headers:
+#    Authorization: "Bearer <your-token>"
+
+#altair:
+#  mapping: /altair
+#  endpoint:
+#    graphql: /graphql
+#    subscriptions: /subscriptions
+#  subscriptions:
+#    timeout: 30
+#    reconnect: false
+#  static:
+#    basePath: /
+#  enabled: true
+#  pageTitle: Altair
+#  cdn:
+#    enabled: false
+#    version: 2.1.7
+#  props:
+#    resources:
+#      defaultQuery: defaultQuery.graphql
+#      variables: variables.graphql
+#  headers:
+#    Authorization: "Bearer <your-token>"
+
+graphql.playground:
+  mapping: /playground
+  endpoint: /graphql
+  subscriptionEndpoint: /subscriptions
+  staticPath.base: my-playground-resources-folder
+  enabled: true
+  pageTitle: Playground
+  cdn:
+    enabled: false
+    version: latest
+  settings:
+    editor.cursorShape: line
+    editor.fontFamily: "'Source Code Pro', 'Consolas', 'Inconsolata', 'Droid Sans Mono', 'Monaco', monospace"
+    editor.fontSize: 14
+    editor.reuseHeaders: true
+    editor.theme: dark
+    general.betaUpdates: false
+    prettier.printWidth: 80
+    prettier.tabWidth: 2
+    prettier.useTabs: false
+    request.credentials: omit
+    schema.polling.enable: true
+    schema.polling.endpointFilter: "*localhost*"
+    schema.polling.interval: 2000
+    schema.disableComments: true
+    tracing.hideTracingResponse: true
+  headers:
+    headerFor: AllTabs
+  tabs:
+    - name: Example Tab
+      query: classpath:exampleQuery.graphql
+      headers:
+        SomeHeader: Some value
+      variables: classpath:variables.json
+      responses:
+        - classpath:exampleResponse1.json
+        - classpath:exampleResponse2.json
+
+#graphql:
+#  servlet:
+#    mapping: /graphql
+#    enabled: true
+#    corsEnabled: true
+#  tools:
+#    schemaLocationPattern: "graphql/*.graphqls"
+#graphiql:
+#  mapping: /graphiql
+#  endpoint:
+#    graphql: /graphql
+#    subscriptions: /subscriptions
+#  static:
+#    basePath: /
+#  enabled: true
+#  pageTitle: GraphiQL
+#  cdn:
+#    enabled: false
+#    version: 0.11.11
+#  props:
+#    resources:
+#      query: testquery.query
+#      defaultQuery: testquery.query
+#    variables:
+#      editorTheme: "solarized light"
+#  headers:
+#    Authorization: "Bearer vdff3344ffs v"
+
