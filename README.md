@@ -1,6 +1,6 @@
 # GraphQLServer_SpringBoot
 The GraphQL server project developed by SpringBoot
-#  1.A First Look at GraphQL
+#  1. A First Look at GraphQL
 Some of the information in this section comes from：https://graphql.com
 GraphQL was first introduced as a next-generation data interface standard by FaceBook, Inc. Development began in 2012, with the initial version released in 2015, and was detached from FaceBook as a separate, open source project in July 2018.
 
