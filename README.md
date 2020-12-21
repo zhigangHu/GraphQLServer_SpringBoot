@@ -255,7 +255,7 @@ type Author{
 This shows that regardless of the language used to develop GraphQL, the definition of Schema is written according to the specifications of the type language.
 
 There is a lot more to the type language, so I won't go into it all here for space reasons. For more details, see.
-![在这里插入图片描述](https://graphql.cn/learn/schema/#object-types-and-fields)
+(https://graphql.cn/learn/schema/#object-types-and-fields)
 
 # 4. GraphQL Server Implementation - Based on SpringBoot+GraphQL
 Before implementing a GraphQL Server, it is recommended to go through how a specific GraphQL query statement is executed, and since there is so much theory, please refer specifically to.
