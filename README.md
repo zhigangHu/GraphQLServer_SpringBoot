@@ -263,7 +263,7 @@ https://graphql.org/learn/execution/
 Project examples and some code references in this section are taken from：
 https://www.graphql-java.com/documentation/v14/
 
-## 4.1 SpringBoot简介
+## 4.1 Introduction to SpringBoot
 SpringBoot should be based on the Java language is currently one of the most important framework , but also the Java open source framework for a landmark product . Combined with Java's object-oriented language features and Spring's AOP software engineering ideas, it should be said that SpringBoot is the development of large-scale, complex front-end and back-end separation of the software of choice. Especially the Java-derived Scala combined with Spark, Hadoop and other big data platforms, to create a more capable "big back-end" provides the possibility.
 Here we will combine a concrete example to see how to develop a GraphQL Server of our own using SpringBoot.
 
