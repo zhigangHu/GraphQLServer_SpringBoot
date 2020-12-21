@@ -257,23 +257,25 @@ This shows that regardless of the language used to develop GraphQL, the definiti
 There is a lot more to the type language, so I won't go into it all here for space reasons. For more details, see.
 (https://graphql.cn/learn/schema/#object-types-and-fields)
 
-# 4. GraphQL Server实现——基于SpringBoot+GraphQL
-在实现一个GraphQL Server之前，建议大家先去看看一个具体的GraphQL查询语句是如何执行的，由于理论的内容太多，请大家具体参阅：
+# 4. GraphQL Server Implementation - Based on SpringBoot+GraphQL
+Before implementing a GraphQL Server, it is recommended to go through how a specific GraphQL query statement is executed, and since there is so much theory, please refer specifically to.
 https://graphql.org/learn/execution/
-本章节项目案例及部分代码参考自：
+Project examples and some code references in this section are taken from：
 https://www.graphql-java.com/documentation/v14/
 
 ## 4.1 SpringBoot简介
-SpringBoot应该是目前基于Java语言的最重要的一个框架了，也是Java开源框架中的一个具有划时代意义的产品。结合Java面向对象的语言特性和Spring的AOP软件工程思想，应该说SpringBoot是开发大型、复杂的前后端分离的软件的不二选择。特别是由Java衍生出的Scala结合Spark、Hadoop等大数据平台，为打造能力更强的“大后端”提供了可能性。
-下面我们就结合一个具体的例子，来看看如何使用SpringBoot来开发一个我们自己的GraphQL Server。
+SpringBoot should be based on the Java language is currently one of the most important framework , but also the Java open source framework for a landmark product . Combined with Java's object-oriented language features and Spring's AOP software engineering ideas, it should be said that SpringBoot is the development of large-scale, complex front-end and back-end separation of the software of choice. Especially the Java-derived Scala combined with Spark, Hadoop and other big data platforms, to create a more capable "big back-end" provides the possibility.
+Here we will combine a concrete example to see how to develop a GraphQL Server of our own using SpringBoot.
 
-## 4.2 开发平台和开发工具
-Java开发工具：IntellJ IDEA，一个能够让我这个用了十多年Eclipse的转投IntellJ自然尤其自身的优势。
-数据库：MySQL
-数据库管理工具：MySQL Workbench
+## 4.2 Development platform and development tools
 
-## 4.3 具体开发步骤
-### 4.3.1 MySQL数据库创建
+JavaDevelopment Tools：IntellJ IDEA。
+Database：MySQL
+Database Management Tools：MySQL Workbench
+
+## 4.3 Concrete development steps
+
+### 4.3.1 MySQL Database creation
 
 ```sql
 CREATE DATABASE /*!32312 IF NOT EXISTS*/`graphql` /*!40100 DEFAULT CHARACTER SET utf8 */;
@@ -312,33 +314,45 @@ CREATE TABLE `book` (
  
 DROP TABLE IF EXISTS `user`;
 ```
-执行完上述代码之后，在MySQL中能创建一个名为graphql的database。它包含两个表格“author”和“book”。
-创建完成之后，schema的结构如下：
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201220043858616.png#pic_center)
-### 4.3.2 在IntellJ中创建SpringBoot项目
-在IntellJ中，选择File=>new=>project，在new project对话框中，选择“Spring Initia”，在“Project SDK”中建议选择“1.8”，因为本人在实际开发过程中SDK 11曾经出现过很多兼容性问题。
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201220044954442.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvbXFpYW8x,size_16,color_FFFFFF,t_70#pic_center)
-单击“Next”
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201220045334203.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvbXFpYW8x,size_16,color_FFFFFF,t_70#pic_center)
-在这一步就按默认的选项，Java version建议选“8”，单击“Next”
-在这一步我们需要选择项目当中需要用的的dependecies:
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201220050423462.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvbXFpYW8x,size_16,color_FFFFFF,t_70#pic_center)
-在本项目中，需要用到以下dependencies:
-1. Developer Tools![在这里插入图片描述](https://img-blog.csdnimg.cn/20201220050803828.png#pic_center)
+After executing the above code, you can create a database named graphql in MySQL, which contains two tables "author" and "book".
+Once created, the structure of the schema is as follows.
+!(https://img-blog.csdnimg.cn/20201220043858616.png#pic_center)
 
-2. Web![在这里插入图片描述](https://img-blog.csdnimg.cn/20201220051002155.png#pic_center)
+### 4.3.2 Creating SpringBoot projects in IntellJ
 
-3. Template Engine![在这里插入图片描述](https://img-blog.csdnimg.cn/20201220051120700.png#pic_center)
-4. SQL.![在这里插入图片描述](https://img-blog.csdnimg.cn/2020122005130915.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvbXFpYW8x,size_16,color_FFFFFF,t_70#pic_center)在这里我们要同时添加 Spring Data JPA和MySQL Driver，分别用于创建数据中间层和MySQL的驱动
+In IntellJ, select File=>new=>project, in the new project dialog box, select "Spring Initia", in the "Project SDK" It is recommended to select "1.8", because I have had many compatibility problems with SDK 11 in the actual development process.
+!(https://img-blog.csdnimg.cn/20201220044954442.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvbXFpYW8x,size_16,color_FFFFFF,t_70#pic_center)
 
-5. 最后为项目命名并选择存储位置![在这里插入图片描述](https://img-blog.csdnimg.cn/20201220051651839.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvbXFpYW8x,size_16,color_FFFFFF,t_70#pic_center)
+Click “Next”
+!(https://img-blog.csdnimg.cn/20201220045334203.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvbXFpYW8x,size_16,color_FFFFFF,t_70#pic_center)
 
-### 4.3.3 在IntellJ中添加GraphQL plugin
-File=>setting，在setting对话框中选择plugins，确认添加了JS GraphQL plugin
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201220052346109.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvbXFpYW8x,size_16,color_FFFFFF,t_70#pic_center)
-### 4.3.4 添加GraphQL的dependencies
-目前在SpringBoot中对GraphQL支持比较好的Package就是graphql-java-kickstart了，它集成了相当多的有用工具，比原生的GraphQL-Java package要好用很多，而且在其中就集成了GraphQL Playground调试工具，测试GraphQL语句非常方便。详细请参阅：https://github.com/graphql-java-kickstart/graphql-spring-boot
-添加完上述所需dependencies后，完整的pom.xml文件内容如下：
+In this step, press the default option, Java version is recommended to select "8", click "Next"
+
+In this step we need to select the dependencies we need to use in the project:
+!(https://img-blog.csdnimg.cn/20201220050423462.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvbXFpYW8x,size_16,color_FFFFFF,t_70#pic_center)
+In this project, the following dependencies are used:
+1. Developer Tools
+(https://img-blog.csdnimg.cn/20201220050803828.png#pic_center)
+
+2. Web
+(https://img-blog.csdnimg.cn/20201220051002155.png#pic_center)
+
+3. Template Engine
+(https://img-blog.csdnimg.cn/20201220051120700.png#pic_center)
+4. SQL.
+(https://img-blog.csdnimg.cn/2020122005130915.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvbXFpYW8x,size_16,color_FFFFFF,t_70#pic_center)
+Here we are going to add both Spring Data JPA and MySQL Driver for creating the data middle tier and MySQL driver respectively
+
+5. Finally, name the project and choose a storage location
+(https://img-blog.csdnimg.cn/20201220051651839.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvbXFpYW8x,size_16,color_FFFFFF,t_70#pic_center)
+
+### 4.3.3 Adding GraphQL plugin to IntellJ
+File=>setting，Select plugins in the settings dialog to make sure the JS GraphQL plugin is added
+(https://img-blog.csdnimg.cn/20201220052346109.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvbXFpYW8x,size_16,color_FFFFFF,t_70#pic_center)
+
+### 4.3.4 Adding GraphQL dependencies
+At present, the Package with better support for GraphQL in SpringBoot is graphql-java-kickstart, which integrates quite a lot of useful tools, much better than the native GraphQL-Java package, and integrates the GraphQL Playground debugging tool is integrated in it, so it is very convenient to test GraphQL statements. For more details, please refer to：https://github.com/graphql-java-kickstart/graphql-spring-boot
+After adding the above required dependencies, the complete pom.xml file will look like this：
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -514,24 +528,22 @@ File=>setting，在setting对话框中选择plugins，确认添加了JS GraphQL 
 </project>
 
 ```
-### 4.3.5 创建项目目录
-本项目目录结构如下：
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201220054212179.png#pic_center)
+### 4.3.5 Create project directory
+The directory structure of this project is as follows.
+(https://img-blog.csdnimg.cn/20201220054212179.png#pic_center)
 
- - config目录：存放config配置文件 entity目录：存放entity实体类文件，entity实体类与MySQL数据库中表
+ - config directory: store config configuration file entity directory: store entity entity class file, entity class and MySQL database table
   
- - model目录：存放数据model文件 repo目录：repository目录，存放对数据模型操作文件
+ - model directory: the data model file repo directory: the repository directory, which stores the data model operation files
    
- - resolver目录：这是GraphQL
+ - resolver directory: this is the most important directory in GraphQL server project, the files inside are responsible for converting front-end GraphQL operations into real, SpringBoot-based database operations.
 
-  
+Also, create a graphql directory in the project's resources directory to hold GraphQL-related .graphql files.
+(https://img-blog.csdnimg.cn/20201220065455285.png#pic_center)
 
- - server项目中最为重要的目录，里面的文件负责将前端的GraphQL操作转换成真实的、基于SpringBoot的数据库操作。
+### 4.4.4 application.yml project configuration file
 
-同时，在项目的resources目录中创建graphql目录，用于存放与GraphQL相关的.graphql文件：
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201220065455285.png#pic_center)
-### 4.4.4 application.yml项目配置文件
-当成功创建一个SpringBoot项目时，系统会自动为我们创建一个application.properties文件，主要用于系统运行时用到的环境参数变量以及相关的值，在这里我们用自己定义的application.yml文件，相比较.properties文件，.yml文件的层次更加清晰也更简洁，其内容如下：
+When a SpringBoot project is successfully created, the system will automatically create an application.properties file for us, which is mainly used for the environment parameters variables and related values used by the system at runtime, here we use our own application.yml file, compared to the .properties file, the . yml file is clearer and more concise, its content is as follows.
 
 ```xml
 spring:
@@ -622,20 +634,21 @@ graphql.playground:
         - classpath:exampleResponse1.json
         - classpath:exampleResponse2.json
 ```
-在文件中比较重要的配置内容有：
+The more important configuration elements in the file are.
 
- - datasource: 配置数据库连接参数； 
- - hikari: 配置数据库连接池，使用数据连接池可以大大优化对数据库的连接域访问速度，具体请参阅：https://www.baeldung.com/spring-boot-hikari
- - 
-   graphql:graphql的基本配置；
+ - datasource: configures the database connection parameters. 
+ - hikari: configure database connection pooling, using data connection pooling can greatly optimize the speed of access to the database connection domain, see: https://www.baeldung.com/spring-boot-hikari
+ -graphql 
+   graphql: the basic configuration of graphql.
    
- - graphql.playground: playground调试工具的基本配置
+ - graphql.playground: basic configuration of the playground debugging tool
 
-### 4.4.5 entity目录中的文件
-entity目录中的文件为数据实体文件，该目录中的文件与数据库中的表对应：
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201220072137920.png#pic_center)
-在数据库中我们创建了author表和book表，因此我们就创建了Author.java和Book.java文件与之相对应。并且在author表和book表中分别都有created_time、updated_time以及Id字段，为避免冗余，我们创建了BaseEntity.java文件来对应这些字段。
-各文件内容代码如下：
+### 4.4.5 Files in the entity directory
+
+The files in the entity directory are data entity files, and the files in this directory correspond to the tables in the database.
+(https://img-blog.csdnimg.cn/20201220072137920.png#pic_center)
+In the database we created "author" and "book" tables, so we created Author.java and Book.java files to correspond to them. And there are "created_time", "updated_time" and "Id" fields in "author" and "book" tables respectively, so to avoid redundancy, we created BaseEntity.java file to correspond to these fields.
+The content codes of each document are as follows.
 1. BaseEntity.java
 
 ```java
@@ -739,10 +752,12 @@ public class Book extends BaseEntity {
 }
 
 ```
-### 4.4.6 model目录中的文件
-这个目录中的数据model文件要与GraphQL中schema中所定义的数据操作相关联，例如我在schema中定义了一个type为input，名称为BookInput的model（Type definition的内容请查阅前面章节）
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201220074114137.png#pic_center)
-因此，在这个目录中，我们需要编写一个BookInput.java文件与之相对应，内容如下：
+### 4.4.6 Files in the "model" directory
+
+The data model files in this directory should be associated with the data operations defined in the schema in GraphQL, for example, I defined a mod with type input and name BookInput in the schema (please refer to the previous section for the content of the Type definition)
+(https://img-blog.csdnimg.cn/20201220074114137.png#pic_center)
+
+Therefore, in this directory, we need to write a BookInput.java file corresponding to it, with the following content：
 
 ```java
 package com.exaple.springboot_graphql.model;
@@ -762,8 +777,8 @@ public class BookInput {
     private long authorId;
 }
 ```
-### 4.4.7 repo目录中的文件
-repo目录中的文件都是Interface文件，它们均继承自JpaRepository接口。在这些接口文件中定义了数据访问及操作接口。具体文件内容如下：
+### 4.4.7 Files in the repo directory
+The files in the repo directory are all Interface files, which all inherit from the JpaRepository interface. The data access and operation interfaces are defined in these interface files. The specific files are as follows.
 1. AuthorRepo.java
 
 ```java
@@ -803,8 +818,8 @@ public interface BookRepo extends JpaRepository<Book,Long> {
     Book findBookById(Long id);
 }
 ```
-### 4.4.8 resolver目录中的文件
-这个目录中的文件负责实现对数据库操作的具体实现，与以往的SpringBoot文件不同的是，这个目录中的问价还要负责将前端传递过来的GraphQL语句解析成具体的数据操作代码，因此该目录中有以下文件：
+### 4.4.8 Files in the resolver directory
+The files in this directory are responsible for the concrete implementation of the database operations. Unlike the previous SpringBoot files, this directory is also responsible for parsing the GraphQL statements passed from the front-end into concrete data manipulation code, so there are the following files in this directory.
 1. AuthorResolver.java 
 
 ```java
@@ -937,7 +952,7 @@ public class Mutation implements GraphQLMutationResolver {
 
 }
 ```
-该文件负责对数据进行更新操作，因此分别定义了save、delete和update操作
+This file is responsible for updating the data and therefore defines the save, delete and update operations respectively
 
 4. Query.java
 
@@ -988,14 +1003,15 @@ public class Query implements GraphQLQueryResolver {
 }
 
 ```
-该文件负责实现对数据的查询
+This file is responsible for implementing queries to the data
 
-### 4.4.9 resources/graphql目录中的文件
-该目录中的文件主要是完成GraphQL中的schema的类型定义，要让系统成功找到该定义文件，需要在前面所讲述的application.yml中定义该配置文件所在的位置：
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20201220083224533.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvbXFpYW8x,size_16,color_FFFFFF,t_70#pic_center)
-该目录中主要有以下两个文件：
+### 4.4.9 Files in the resources/graphql directory
+
+The files in this directory mainly complete the type definition of the schema in GraphQL. For the system to successfully find this definition file, the location of this configuration file needs to be defined in application.yml as described earlier.
+(https://img-blog.csdnimg.cn/20201220083224533.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvbXFpYW8x,size_16,color_FFFFFF,t_70#pic_center)
+The directory contains the following two main files.
 1.schema.graphql
-该文件就是使用GraphQL的类型定义语言所定义的schema，是整个GraphQL功能实现的核心，其内容如下：
+This file is the schema defined using GraphQL's type definition language, and is the core of the entire GraphQL functionality implementation, which is as follows.
 
 ```javascript
 type Author{
@@ -1023,7 +1039,7 @@ type Book{
 ```
 
 2.root.graphql
-该文件的重要性在前面章节已经介绍过，它负责定义在GraphQL的查询语言中实现的语言的格式样式，其内容如下：
+The importance of this file has been described in the previous sections and it is responsible for defining the formatting style of the language implemented in GraphQL's query language, which is as follows.
 
 ```javascript
 type Query{
@@ -1044,4 +1060,72 @@ type Mutation {
     updateBookPageCount(pageCount: Int!, id:ID!) : Book!
 }
 ```
-至此，基于SpringBoot的GraphQL Server代码编写全部完成，下一章节将讲解如何利用GraphQL Playground对server进行调试
+The next section will explain how to use GraphQL Playground to debug the server.
+
+# 5. Debug by Graph Playground
+Once the above code is completed, you can start the SpringBoot server for testing.
+Tomcat server has been integrated in the SpringBoot framework, and after the system is successfully started, you can type in the browser address bar：http://localhost:8080/graphiql
+Start the debugging tool, the interface is shown in the following figure.
+!(https://img-blog.csdnimg.cn/20201220153939921.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvbXFpYW8x,size_16,color_FFFFFF,t_70#pic_center)
+The debugging tool has three windows.
+The leftmost one allows you to enter GraphQL statements, the middle one shows the query or update data results, and the rightmost one allows you to preview the query and mutation statement styles defined in root.graphql.
+We can first use GraphQL to add data to the database by entering the mutation code in the leftmost statement window.
+
+```javascript
+mutation{
+  newAuthor(firstName:"andy",lastName:"liu"){
+    id,
+    firstName,
+    lastName
+  }
+}
+```
+Click the Run button in the upper left corner of the test window at
+(https://img-blog.csdnimg.cn/20201220154731169.png#pic_center)
+After a successful run, the result of the run is displayed in the middle window.
+(https://img-blog.csdnimg.cn/20201220154841676.png#pic_center)
+Continue adding data to the Book table.
+
+```javascript
+mutation{
+  newBook(title:"China 100 years",
+  isbn:"123456789",
+  pageCount:100,
+  authorId:1){
+    title,
+    isbn,
+    pageCount,
+    author{
+      id,
+      firstName,
+      lastName
+    }
+  }
+}
+```
+Results.
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201220155131837.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvbXFpYW8x,size_16,color_FFFFFF,t_70#pic_center)
+Also, the following records have been added to the Author and Book tables of the MySQL database.
+author table：
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201220155456992.png#pic_center)
+book table：
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201220155627649.png#pic_center)
+Here's another query statement to test：
+
+```javascript
+{
+  findAllBooks{
+    id,
+    isbn,
+    pageCount,
+    author{
+      id,
+      firstName,
+      lastName
+    }
+  }
+}
+```
+Test results.
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201220160939233.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvbXFpYW8x,size_16,color_FFFFFF,t_70#pic_center)
+At this point, the development of the GraphQL server based on SpringBoot is complete
