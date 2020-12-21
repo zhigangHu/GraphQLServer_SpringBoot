@@ -189,3 +189,70 @@ mutation CreateReviewForEpisode($ep: Episode!, $review: ReviewInput!) {
 }
 ```
 This code implements the insertion of a data record into the database, and it is important to note in this statement that the parameters of the data are in the $variableName format, meaning that the specific value is passed through a JSON file with variableName: value. the "! " indicates that it cannot be null.
+# 3. Schema and Type
+Schema is a very important concept in GraphQL, and a good understanding of this concept and a good use of it in your own GraphQL server is crucial for implementing relevant GraphQL queries and change statements.
+
+## 3.1 Type System
+Let's start with a GraphQL query statement.
+
+```javascript
+{
+  hero {
+    name
+    appearsIn
+  }
+}
+```
+The execution order of this query statement is.
+1. start with a special "root" object. This means that there needs to be a root object in the GraphQL schema.
+2. select the hero field on the root; 
+3. select the name and appearsIn attributes for the object returned by hero.
+Although it is said that the results of GraphQL queries are so close to the query statements that we can even predict the results of the queries based on the query statements. But we still need to make a precise definition of the required data, and this definition is independent of the specific database. What fields can we select? What kind of objects will the server return? What fields are available under these objects? This is the reason for introducing schema.
+Each GraphQL service defines a set of types that describe the data you might query from that service. Whenever a query arrives, the server validates and executes the query against the schema. So in developing your own GraphQL server, you need to define a Schema type file, no matter what language you write it in.
+
+## 3.2 Type Language
+GraphQL services can be written in any language, as we do not rely on any language-specific syntax syntax (e.g. JavaScript) to communicate with GraphQL schema, we define our own simple language called "GraphQL schema language" - which is similar to GraphQL query language and allows us to communicate with GraphQL schema without language differences.
+
+## 3.3 Object Types and Fields
+The most basic component in a GraphQL schema is the object type, which indicates what type of object you can get from the service, and what fields this object has. Using the GraphQL schema language, we can represent it like this.
+
+```javascript
+type Character {
+  name: String!
+  appearsIn: [Episode!]!
+}
+```
+
+ - Character is a GraphQL object type, indicating that it is a type that has some fields. Most of the types in your schema will be object types.
+   
+ - name and appearsIn are fields on the Character type. This means that only the name and appearsIn fields can appear in any part of a GraphQL query that operates on the Character type. 
+ - String is one of the built-in scalar types -- a scalar type is a type that resolves to a single scalar object and cannot be subselected in a query. We'll talk more about scalar types later. 
+ - String! means that the field is non-null, and the GraphQL service guarantees that when you query this field, it will always return a value to you. In the type language, we use an exclamation point to indicate this feature.
+ - [Episode!]! represents an array of Episodes. Since it is also non-empty, you will always get an array (zero or more elements) when you query the appearsIn field. And since Episode! is also non-empty, you can always expect each item in the array to be an Episode object.
+ - 
+
+Example of combining specific language.
+1. JavaScript:In JavaScript, we use a schema.js file to define the Schema:
+
+```javascript
+type Post {
+        id: Int
+        text: String
+        user:User
+    }
+```
+2. Java: In GraphQL server developed using Java+Spring boot framework, we use schema.graphql file to define Schema
+
+```javascript
+type Author{
+    id:ID!
+    createdTime:String
+    firstName:String
+    lastName:String
+    books:[Book]
+}
+```
+This shows that regardless of the language used to develop GraphQL, the definition of Schema is written according to the specifications of the type language.
+
+There is a lot more to the type language, so I won't go into it all here for space reasons. For more details, see.
+(https://graphql.cn/learn/schema/#object-types-and-fields)
