@@ -48,8 +48,8 @@ This is an example of a GraphQL query statement that, when sent to a GraphQL ser
 ```
 It follows that the GraphQL query result structure is the structure of the definition of the query statement, the so-called“ask exactly what you want.”
 # 2.GraphQL Basic Concepts
-本章节部分内容和案例代码参考自：http://graphql.cn
-## 2.1 字段
+Parts of this section and case codes are referenced from：http://graphql.cn
+## 2.1 Fields
 One of the most important features of GraphQL is that the query and the result have almost the same structure, so that the front-end always gets the desired data and the back-end server knows exactly the fields requested by the front-end.
 In GraphQL, a field refers to an object type (Object), and GraphQL's ability to traverse related objects and their fields allows the client to request a large amount of related data at once, rather than having to query it multiple times as in traditional REST architectures.
 GraphQL query code：
