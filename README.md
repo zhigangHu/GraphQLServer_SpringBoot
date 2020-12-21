@@ -255,7 +255,7 @@ type Author{
 This shows that regardless of the language used to develop GraphQL, the definition of Schema is written according to the specifications of the type language.
 
 There is a lot more to the type language, so I won't go into it all here for space reasons. For more details, see.
-(https://graphql.cn/learn/schema/#object-types-and-fields)
+![在这里插入图片描述](https://graphql.cn/learn/schema/#object-types-and-fields)
 
 # 4. GraphQL Server Implementation - Based on SpringBoot+GraphQL
 Before implementing a GraphQL Server, it is recommended to go through how a specific GraphQL query statement is executed, and since there is so much theory, please refer specifically to.
@@ -316,39 +316,39 @@ DROP TABLE IF EXISTS `user`;
 ```
 After executing the above code, you can create a database named graphql in MySQL, which contains two tables "author" and "book".
 Once created, the structure of the schema is as follows.
-!(https://img-blog.csdnimg.cn/20201220043858616.png#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201220043858616.png#pic_center)
 
 ### 4.3.2 Creating SpringBoot projects in IntellJ
 
 In IntellJ, select File=>new=>project, in the new project dialog box, select "Spring Initia", in the "Project SDK" It is recommended to select "1.8", because I have had many compatibility problems with SDK 11 in the actual development process.
-!(https://img-blog.csdnimg.cn/20201220044954442.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvbXFpYW8x,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201220044954442.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvbXFpYW8x,size_16,color_FFFFFF,t_70#pic_center)
 
 Click “Next”
-!(https://img-blog.csdnimg.cn/20201220045334203.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvbXFpYW8x,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201220045334203.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvbXFpYW8x,size_16,color_FFFFFF,t_70#pic_center)
 
 In this step, press the default option, Java version is recommended to select "8", click "Next"
 
 In this step we need to select the dependencies we need to use in the project:
-!(https://img-blog.csdnimg.cn/20201220050423462.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvbXFpYW8x,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201220050423462.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvbXFpYW8x,size_16,color_FFFFFF,t_70#pic_center)
 In this project, the following dependencies are used:
 1. Developer Tools
-(https://img-blog.csdnimg.cn/20201220050803828.png#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201220050803828.png#pic_center)
 
 2. Web
-(https://img-blog.csdnimg.cn/20201220051002155.png#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201220051002155.png#pic_center)
 
 3. Template Engine
-(https://img-blog.csdnimg.cn/20201220051120700.png#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201220051120700.png#pic_center)
 4. SQL.
-(https://img-blog.csdnimg.cn/2020122005130915.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvbXFpYW8x,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/2020122005130915.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvbXFpYW8x,size_16,color_FFFFFF,t_70#pic_center)
 Here we are going to add both Spring Data JPA and MySQL Driver for creating the data middle tier and MySQL driver respectively
 
 5. Finally, name the project and choose a storage location
-(https://img-blog.csdnimg.cn/20201220051651839.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvbXFpYW8x,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201220051651839.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvbXFpYW8x,size_16,color_FFFFFF,t_70#pic_center)
 
 ### 4.3.3 Adding GraphQL plugin to IntellJ
 File=>setting，Select plugins in the settings dialog to make sure the JS GraphQL plugin is added
-(https://img-blog.csdnimg.cn/20201220052346109.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvbXFpYW8x,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201220052346109.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvbXFpYW8x,size_16,color_FFFFFF,t_70#pic_center)
 
 ### 4.3.4 Adding GraphQL dependencies
 At present, the Package with better support for GraphQL in SpringBoot is graphql-java-kickstart, which integrates quite a lot of useful tools, much better than the native GraphQL-Java package, and integrates the GraphQL Playground debugging tool is integrated in it, so it is very convenient to test GraphQL statements. For more details, please refer to：https://github.com/graphql-java-kickstart/graphql-spring-boot
@@ -530,7 +530,7 @@ After adding the above required dependencies, the complete pom.xml file will loo
 ```
 ### 4.3.5 Create project directory
 The directory structure of this project is as follows.
-(https://img-blog.csdnimg.cn/20201220054212179.png#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201220054212179.png#pic_center)
 
  - config directory: store config configuration file entity directory: store entity entity class file, entity class and MySQL database table
   
@@ -539,7 +539,7 @@ The directory structure of this project is as follows.
  - resolver directory: this is the most important directory in GraphQL server project, the files inside are responsible for converting front-end GraphQL operations into real, SpringBoot-based database operations.
 
 Also, create a graphql directory in the project's resources directory to hold GraphQL-related .graphql files.
-(https://img-blog.csdnimg.cn/20201220065455285.png#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201220065455285.png#pic_center)
 
 ### 4.4.4 application.yml project configuration file
 
@@ -646,7 +646,7 @@ The more important configuration elements in the file are.
 ### 4.4.5 Files in the entity directory
 
 The files in the entity directory are data entity files, and the files in this directory correspond to the tables in the database.
-(https://img-blog.csdnimg.cn/20201220072137920.png#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201220072137920.png#pic_center)
 In the database we created "author" and "book" tables, so we created Author.java and Book.java files to correspond to them. And there are "created_time", "updated_time" and "Id" fields in "author" and "book" tables respectively, so to avoid redundancy, we created BaseEntity.java file to correspond to these fields.
 The content codes of each document are as follows.
 1. BaseEntity.java
@@ -755,7 +755,7 @@ public class Book extends BaseEntity {
 ### 4.4.6 Files in the "model" directory
 
 The data model files in this directory should be associated with the data operations defined in the schema in GraphQL, for example, I defined a mod with type input and name BookInput in the schema (please refer to the previous section for the content of the Type definition)
-(https://img-blog.csdnimg.cn/20201220074114137.png#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201220074114137.png#pic_center)
 
 Therefore, in this directory, we need to write a BookInput.java file corresponding to it, with the following content：
 
@@ -1008,7 +1008,7 @@ This file is responsible for implementing queries to the data
 ### 4.4.9 Files in the resources/graphql directory
 
 The files in this directory mainly complete the type definition of the schema in GraphQL. For the system to successfully find this definition file, the location of this configuration file needs to be defined in application.yml as described earlier.
-(https://img-blog.csdnimg.cn/20201220083224533.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvbXFpYW8x,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201220083224533.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvbXFpYW8x,size_16,color_FFFFFF,t_70#pic_center)
 The directory contains the following two main files.
 1.schema.graphql
 This file is the schema defined using GraphQL's type definition language, and is the core of the entire GraphQL functionality implementation, which is as follows.
@@ -1066,7 +1066,7 @@ The next section will explain how to use GraphQL Playground to debug the server.
 Once the above code is completed, you can start the SpringBoot server for testing.
 Tomcat server has been integrated in the SpringBoot framework, and after the system is successfully started, you can type in the browser address bar：http://localhost:8080/graphiql
 Start the debugging tool, the interface is shown in the following figure.
-!(https://img-blog.csdnimg.cn/20201220153939921.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvbXFpYW8x,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201220153939921.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2NvbXFpYW8x,size_16,color_FFFFFF,t_70#pic_center)
 The debugging tool has three windows.
 The leftmost one allows you to enter GraphQL statements, the middle one shows the query or update data results, and the rightmost one allows you to preview the query and mutation statement styles defined in root.graphql.
 We can first use GraphQL to add data to the database by entering the mutation code in the leftmost statement window.
@@ -1081,9 +1081,9 @@ mutation{
 }
 ```
 Click the Run button in the upper left corner of the test window at
-(https://img-blog.csdnimg.cn/20201220154731169.png#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201220154731169.png#pic_center)
 After a successful run, the result of the run is displayed in the middle window.
-(https://img-blog.csdnimg.cn/20201220154841676.png#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20201220154841676.png#pic_center)
 Continue adding data to the Book table.
 
 ```javascript
